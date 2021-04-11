@@ -124,4 +124,33 @@ template<size_t size>
     return ::testing::AssertionSuccess();
 }
 
+::testing::AssertionResult ComplexNumberNear(CplxNum expected, CplxNum actual, double tolerance)
+{
+    if (strcmp(expected.mode, cartesian) == 0 && strcmp(actual.mode, cartesian) == 0) {
+        if (fabs(expected.s.cart.a - actual.s.cart.a) > tolerance || fabs(expected.s.cart.b - actual.s.cart.b) > tolerance)
+        {
+            return ::testing::AssertionFailure() <<
+                "expected (" << expected.s.cart.a << " + j*" << expected.s.cart.b <<
+                ") != actual (" << actual.s.cart.a << " + j*" << actual.s.cart.b <<
+                ")";
+        }
+    }
+    else if (strcmp(expected.mode, polar) == 0 && strcmp(actual.mode, polar) == 0) {
+        if (fabs(expected.s.pol.r - actual.s.pol.r) > tolerance || fabs(expected.s.pol.g - actual.s.pol.g) > tolerance)
+        {
+            return ::testing::AssertionFailure() <<
+                "expected (" << expected.s.pol.r << " <_" << expected.s.pol.g <<
+                ") != actual (" << actual.s.pol.r << " <_" << actual.s.pol.g <<
+                ")";
+        }
+    }
+    else {
+        // falha
+        return ::testing::AssertionFailure() << "(expected.mode == " << expected.mode
+            << " != " << "actual.mode == " << actual.mode << " )";
+    }
+
+    return ::testing::AssertionSuccess();
+}
+
 #endif // AUX_FUNCTIONS_H

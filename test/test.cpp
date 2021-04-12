@@ -666,9 +666,9 @@ TEST(Polar2Cartesian, S7Pi_4AngleInputCheckCoordenatesOutput) {
 }
 
 TEST(Polar2Cartesian, NonInfinityAngleCheckCoordenatesOutput) {
-    Pol w = { sqrt(2), _HUGE_ENUF };
+    Pol w = { sqrt(2), 10000 };
     Cart x;
-    Cart x_expected = { 0.2780353, 1.3866132 };
+    Cart x_expected = { -1.346551035, -0.432204014 };
 
     polar2cartesian(&x, w);
 
